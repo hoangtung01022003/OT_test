@@ -56,12 +56,11 @@
     }
     .bank-logo-mark {
         display: inline-block;
-        width: 52px;
         height: 40px;
+        width: auto;
         margin-right: 8px;
-        background: #e51b23;
-        clip-path: polygon(0 0, 45% 42%, 45% 0, 55% 0, 55% 42%, 100% 0, 76% 100%, 24% 100%);
         vertical-align: middle;
+        object-fit: contain;
     }
     .bank-line {
         font-size: 21px;
@@ -152,7 +151,7 @@
                     <div class="text-danger fw-bold fs-5 mb-3">M&#195; N&#7840;P C&#210;N HI&#7878;U L&#7920;C 60 PH&#218;T</div>
                     <div class="row align-items-center">
                         <div class="col-md-4">
-                            <div class="bank-logo"><span class="bank-logo-mark"></span><%= bankInfo.bank.bankName %></div>
+                            <div class="bank-logo"><img src="/assets/svg/VPBank_logo.svg.webp" alt="<%= bankInfo.bank.bankName %>" class="bank-logo-mark"></div>
                         </div>
                         <div class="col-md-5 text-start">
                             <div class="bank-line">

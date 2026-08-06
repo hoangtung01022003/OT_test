@@ -214,8 +214,8 @@
                                 <td><%= i + 1 %></td>
                                 <td><%= currentUser.username %></td>
                                 <td><%= h.content %></td>
-                                <td><%= h.amount_vnd || h.amount_hint || 0 %></td>
-                                <td><%= h.coin_credited || 0 %></td>
+                                <td><%= Number(h.amount_vnd || h.amount_hint || 0).toLocaleString('en-US') %></td>
+                                <td><%= Number(h.coin_credited || 0).toLocaleString('en-US') %></td>
                                 <td>
                                     <% if (h.status === 'approved') { %>
                                         <span class="badge bg-success">&#272;&#227; duy&#7879;t</span>

@@ -92,8 +92,8 @@
                                 <tr>
                                     <td><%= r.username %></td>
                                     <td><%= r.content %></td>
-                                    <td><%= r.amount_vnd || 0 %></td>
-                                    <td><%= r.coin_credited || 0 %></td>
+                                    <td><%= Number(r.amount_vnd || 0).toLocaleString('en-US') %></td>
+                                    <td><%= Number(r.coin_credited || 0).toLocaleString('en-US') %></td>
                                     <td>
                                         <% if (r.status === 'approved') { %>
                                             <span class="badge bg-success">Đã duyệt</span>

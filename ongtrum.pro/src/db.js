@@ -47,6 +47,11 @@ async function initSchema() {
     );
 
     ALTER TABLE deposit_requests ADD COLUMN IF NOT EXISTS notified BOOLEAN NOT NULL DEFAULT false;
+
+    ALTER TABLE users ALTER COLUMN coin_balance TYPE BIGINT;
+    ALTER TABLE deposit_requests ALTER COLUMN amount_hint TYPE BIGINT;
+    ALTER TABLE deposit_requests ALTER COLUMN amount_vnd TYPE BIGINT;
+    ALTER TABLE deposit_requests ALTER COLUMN coin_credited TYPE BIGINT;
   `);
 }
 

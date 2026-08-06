@@ -27,6 +27,12 @@ async function requireAuth(req, res, next) {
   if (!user) return res.redirect('/login.aspx');
   req.user = user;
   res.locals.currentUser = user;
+  res.locals.pendingDonateNotice = await db.queryOne(
+    `SELECT id, coin_credited FROM deposit_requests
+     WHERE user_id = $1 AND status = 'approved' AND notified = false
+     ORDER BY approved_at ASC LIMIT 1`,
+    [user.id]
+  );
   next();
 }
 

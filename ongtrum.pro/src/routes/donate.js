@@ -17,7 +17,7 @@ function generateCode() {
   return `OT${n}`;
 }
 
-async function createBankRequest(userId) {
+async function buildAtmDraft() {
   let code;
   let existing;
   for (let i = 0; i < 10; i += 1) {
@@ -26,11 +26,7 @@ async function createBankRequest(userId) {
     if (!existing) break;
   }
 
-  const content = `${DEFAULT_TRANSFER_PREFIX} ${code}`;
-  return db.queryOne(
-    'INSERT INTO deposit_requests (user_id, code, content) VALUES ($1, $2, $3) RETURNING *',
-    [userId, code, content]
-  );
+  return { code, content: `${DEFAULT_TRANSFER_PREFIX} ${code}` };
 }
 
 async function getHistory(userId) {
@@ -66,8 +62,30 @@ router.get('/donate', requireAuth, async (req, res, next) => {
 
 router.post('/donate/atm', requireAuth, async (req, res, next) => {
   try {
-    const request = await createBankRequest(req.user.id);
-    res.redirect(`/donate/atm/${request.id}`);
+    req.session.atmDraft = await buildAtmDraft();
+    res.redirect('/donate/atm');
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Nothing is written to the DB until the user actually submits "DA CHUYEN" below,
+// so simply reloading/F5-ing this page never creates duplicate pending rows.
+router.get('/donate/atm', requireAuth, async (req, res, next) => {
+  try {
+    const draft = req.session.atmDraft;
+    if (!draft) return res.redirect('/donate');
+
+    res.render('donate', {
+      mode: 'bank',
+      bankInfo: bankViewModel({
+        id: null,
+        content: draft.content,
+        amount_hint: null,
+        confirmed_by_user: false,
+      }),
+      history: await getHistory(req.user.id),
+    });
   } catch (err) {
     next(err);
   }
@@ -93,15 +111,45 @@ router.get('/donate/atm/:id', requireAuth, async (req, res, next) => {
 
 router.post('/donate/confirm', requireAuth, async (req, res, next) => {
   try {
-    const requestId = Number(req.body.request_id);
+    const draft = req.session.atmDraft;
+    if (!draft) return res.redirect('/donate');
+
     const amount = Number(req.body.amount) || null;
-    await db.query(
-      `UPDATE deposit_requests
-       SET confirmed_by_user = true, confirmed_at = now(), amount_hint = COALESCE($1, amount_hint)
-       WHERE id = $2 AND user_id = $3 AND status = 'pending'`,
-      [amount, requestId, req.user.id]
+    const request = await db.queryOne(
+      `INSERT INTO deposit_requests (user_id, code, content, amount_hint, confirmed_by_user, confirmed_at)
+       VALUES ($1, $2, $3, $4, true, now())
+       RETURNING *`,
+      [req.user.id, draft.code, draft.content, amount]
     );
-    res.redirect(`/donate/atm/${requestId}`);
+    delete req.session.atmDraft;
+    res.redirect(`/donate/atm/${request.id}`);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/donate/notify/check', requireAuth, async (req, res, next) => {
+  try {
+    const notice = await db.queryOne(
+      `SELECT id, coin_credited FROM deposit_requests
+       WHERE user_id = $1 AND status = 'approved' AND notified = false
+       ORDER BY approved_at ASC LIMIT 1`,
+      [req.user.id]
+    );
+    res.json({ notice });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/donate/notify/ack', requireAuth, async (req, res, next) => {
+  try {
+    const id = Number(req.body.id);
+    await db.query(
+      "UPDATE deposit_requests SET notified = true WHERE id = $1 AND user_id = $2 AND status = 'approved'",
+      [id, req.user.id]
+    );
+    res.json({ ok: true });
   } catch (err) {
     next(err);
   }

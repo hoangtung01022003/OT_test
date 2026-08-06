@@ -1,0 +1,90 @@
+<div id="donateNoticeContainer"></div>
+<style>
+    .donate-notice-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(55, 55, 55, .55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+    }
+    .donate-notice-box {
+        background: #fff;
+        border-radius: 10px;
+        padding: 32px 40px;
+        text-align: center;
+        max-width: 90vw;
+        width: 380px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
+    }
+    .donate-notice-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #3b3b3b;
+        margin-bottom: 16px;
+    }
+    .donate-notice-message {
+        font-size: 15px;
+        color: #555;
+        margin-bottom: 26px;
+    }
+    .donate-notice-ok {
+        background: #6c5ce7;
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        padding: 8px 34px;
+        border-radius: 6px;
+    }
+    .donate-notice-ok:hover {
+        background: #5a4bd6;
+    }
+</style>
+<script>
+    (function () {
+        var container = document.getElementById('donateNoticeContainer');
+        var showing = false;
+
+        function formatNumber(n) {
+            return Number(n || 0).toLocaleString('en-US');
+        }
+
+        function showNotice(notice) {
+            if (showing || !notice) return;
+            showing = true;
+            container.innerHTML =
+                '<div class="donate-notice-overlay" id="donateNoticeOverlay">' +
+                '<div class="donate-notice-box">' +
+                '<div class="donate-notice-title">Thông báo</div>' +
+                '<div class="donate-notice-message">Donate thành công: ' + formatNumber(notice.coin_credited) + ' Xu</div>' +
+                '<button type="button" class="donate-notice-ok" id="donateNoticeOk">OK</button>' +
+                '</div></div>';
+            document.getElementById('donateNoticeOk').addEventListener('click', function () {
+                container.innerHTML = '';
+                showing = false;
+                fetch('/donate/notify/ack', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: notice.id }),
+                });
+            });
+        }
+
+        function poll() {
+            if (showing) return;
+            fetch('/donate/notify/check')
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (data) {
+                    if (data && data.notice) showNotice(data.notice);
+                })
+                .catch(function () {});
+        }
+
+        <% if (typeof pendingDonateNotice !== 'undefined' && pendingDonateNotice) { %>
+        showNotice(<%- JSON.stringify(pendingDonateNotice) %>);
+        <% } %>
+
+        setInterval(poll, 5000);
+    })();
+</script>

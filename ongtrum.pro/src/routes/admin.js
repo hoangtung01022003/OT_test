@@ -23,7 +23,21 @@ router.get('/admin', requireAuth, requireAdmin, async (req, res, next) => {
        LIMIT 20`
     );
 
-    res.render('admin/dashboard', { pending, recentDecided });
+    const users = await db.queryAll(
+      "SELECT id, username, role, coin_balance FROM users ORDER BY coin_balance DESC, username ASC"
+    );
+
+    res.render('admin/dashboard', { pending, recentDecided, users });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/admin/users/:id/reset-balance', requireAuth, requireAdmin, async (req, res, next) => {
+  try {
+    const userId = Number(req.params.id);
+    await db.query('UPDATE users SET coin_balance = 0 WHERE id = $1', [userId]);
+    res.redirect('/admin');
   } catch (err) {
     next(err);
   }

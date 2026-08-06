@@ -45,6 +45,8 @@ async function initSchema() {
       approved_at TIMESTAMPTZ,
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
+
+    ALTER TABLE deposit_requests ADD COLUMN IF NOT EXISTS notified BOOLEAN NOT NULL DEFAULT false;
   `);
 }
 

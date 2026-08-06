@@ -109,6 +109,39 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-12 main-card card mb-4">
+                    <div class="card-header">Qu&#7843;n l&#253; user (<%= users.length %>)</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                        <table class="table table-bordered align-middle">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User</th>
+                                    <th>Vai tr&#242;</th>
+                                    <th>S&#7889; d&#432; (Xu)</th>
+                                    <th>H&#224;nh &#273;&#7897;ng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% users.forEach(function (u) { %>
+                                <tr>
+                                    <td><%= u.id %></td>
+                                    <td><%= u.username %></td>
+                                    <td><%= u.role %></td>
+                                    <td><%= Number(u.coin_balance).toLocaleString('en-US') %></td>
+                                    <td>
+                                        <form method="post" action="/admin/users/<%= u.id %>/reset-balance" onsubmit="return confirm('Reset s&#7889; d&#432; c&#7911;a ' + <%- JSON.stringify(u.username) %> + ' v&#7873; 0 Xu?');">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Reset v&#7873; 0</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

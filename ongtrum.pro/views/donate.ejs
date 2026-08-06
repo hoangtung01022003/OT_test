@@ -170,11 +170,6 @@
                             </div>
                             <p><i class="text-warning fw-bold">Vui l&#242;ng ghi ch&#237;nh x&#225;c n&#7897;i dung chuy&#7875;n ti&#7873;n.</i></p>
                             <div class="text-danger mt-4 fs-5">QU&#201;T M&#195; QR &#272;&#7874; DONATE S&#7868; T&#7920; NH&#7852;P S&#7860;N N&#7896;I DUNG</div>
-                            <% if (bankInfo.request.confirmed_by_user) { %>
-                            <div class="alert alert-success mt-3 mb-0">
-                                &#272;&#227; ghi nh&#7853;n b&#7841;n &#273;&#227; chuy&#7875;n. Vui l&#242;ng ch&#7901; admin duy&#7879;t.
-                            </div>
-                            <% } %>
                         </div>
                         <div class="col-md-3">
                             <img id="qr-img" class="qr-img" src="<%= bankInfo.qrUrl %>" alt="VietQR">
@@ -219,7 +214,7 @@
                                 <td><%= i + 1 %></td>
                                 <td><%= currentUser.username %></td>
                                 <td><%= h.content %></td>
-                                <td><%= h.amount_vnd || 0 %></td>
+                                <td><%= h.amount_vnd || h.amount_hint || 0 %></td>
                                 <td><%= h.coin_credited || 0 %></td>
                                 <td>
                                     <% if (h.status === 'approved') { %>
@@ -241,9 +236,8 @@
                 </div>
             </div>
 
-            <% if (mode === 'bank' && bankInfo && !bankInfo.request.confirmed_by_user) { %>
+            <% if (mode === 'bank' && bankInfo) { %>
             <form method="post" action="/donate/confirm" class="confirm-transfer d-flex flex-wrap align-items-center gap-2 justify-content-center mb-4">
-                <input type="hidden" name="request_id" value="<%= bankInfo.request.id %>">
                 <input type="number" min="0" name="amount" class="form-control" placeholder="S&#7889; ti&#7873;n &#273;&#227; chuy&#7875;n">
                 <button type="submit" class="btn btn-confirm-transfer">&#272;&#195; CHUY&#7874;N</button>
             </form>

@@ -4,3 +4,8 @@ node_modules/
 *.db-journal
 *.db-wal
 *.db-shm
+
+# Deploy artifacts sinh ra tren VPS - khong commit
+db_password.generated.txt
+nginx-*/
+win-acme/

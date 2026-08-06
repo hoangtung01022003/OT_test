@@ -23,6 +23,7 @@
                 <div class="col-md-12 main-card card mb-4">
                     <div class="card-header">Đang chờ duyệt (<%= pending.length %>)</div>
                     <div class="card-body">
+                        <div class="table-responsive">
                         <table class="table table-bordered align-middle">
                             <thead>
                                 <tr>
@@ -71,12 +72,14 @@
                                 <% }) %>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-md-12 main-card card mb-4">
                     <div class="card-header">Lịch sử gần đây</div>
                     <div class="card-body">
+                        <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr><th>User</th><th>Nội dung</th><th>Số tiền</th><th>Xu</th><th>Trạng thái</th><th>Thời gian duyệt</th></tr>
@@ -103,6 +106,7 @@
                                 <% }) %>
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             </div>

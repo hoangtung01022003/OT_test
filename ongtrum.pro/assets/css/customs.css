@@ -262,3 +262,63 @@ button.btn-block {
     margin-left: .5rem !important;
 }
 /* Media Auto Style Ong-trum */
+
+/* Mobile responsive: auth (login/register) + donate page */
+@media (max-width: 576px) {
+    .auth-card .card-body,
+    .donate-card .card-body {
+        padding: 14px;
+    }
+    .auth-title {
+        font-size: 20px;
+    }
+    .auth-form .form-label {
+        font-size: 15px;
+        padding-top: 0;
+    }
+    .auth-actions .btn {
+        display: block;
+        width: 100%;
+        margin: 0 0 10px !important;
+    }
+    .donate-choice-title {
+        font-size: 18px;
+        margin: 16px 0 8px;
+    }
+    .promo-box {
+        font-size: 15px;
+        padding: 12px;
+    }
+    .donate-method {
+        font-size: 16px;
+        height: 44px;
+    }
+    .bank-panel {
+        min-height: 0;
+    }
+    .bank-logo {
+        font-size: 26px;
+        margin-bottom: 10px;
+    }
+    .bank-line {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+    .transfer-content {
+        font-size: 17px;
+    }
+    .qr-img {
+        width: 180px;
+    }
+    .confirm-transfer {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+    .confirm-transfer .form-control {
+        max-width: 100%;
+    }
+    .detail-lines p {
+        font-size: 15px;
+        margin-bottom: 12px;
+    }
+}

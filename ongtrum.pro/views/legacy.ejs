@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<%- include('partials/head', { title: 'Dang phat trien - ongtrum.pro' }) %>
+</head>
+<body>
+<%- include('partials/sidebar') %>
+<div class="wrapper d-flex flex-column min-vh-100">
+    <%- include('partials/header') %>
+    <div class="body flex-grow-1">
+        <div class="container-lg px-4" style="max-width:100%">
+            <div class="container-fluid">
+                <div class="app-page-title">
+                    <div class="page-title-wrapper">
+                        <div class="page-title-heading">
+                            <div>Dang phat trien
+                                <div class="page-title-subheading"><%= requestedPath %></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 main-card card mb-4">
+                    <div class="card-header">Thong bao</div>
+                    <div class="card-body">
+                        <div class="alert alert-info mb-0">
+                            Trang nay chua duoc dung nghiep vu trong ban local. Cac link da duoc giu trong noi bo app, khong dieu huong sang ongtrum.pro production nua.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<%- include('partials/head', { title: 'Nap xu - ongtrum.pro' }) %>
+<style>
+    .donate-page .body {
+        background: #f3f4f7;
+    }
+    .donate-card {
+        border-radius: 6px;
+    }
+    .donate-card .card-header {
+        font-size: 20px;
+        text-transform: uppercase;
+        background: #fff;
+    }
+    .donate-choice-title {
+        font-size: 25px;
+        font-weight: 700;
+        text-align: center;
+        margin: 24px 0 8px;
+    }
+    .donate-method {
+        width: 100%;
+        border: 1px solid #5148ff;
+        color: #5148ff;
+        background: #fff;
+        border-radius: 6px;
+        font-size: 20px;
+        height: 48px;
+        text-decoration: underline;
+    }
+    .donate-method:hover {
+        background: #f4f3ff;
+    }
+    .promo-box {
+        background: #d3f4dc;
+        border: 1px solid #95dbaa;
+        color: #08691f;
+        border-radius: 6px;
+        font-size: 19px;
+        padding: 18px;
+        text-align: center;
+    }
+    .promo-box strong {
+        color: #ff3333;
+    }
+    .bank-panel {
+        min-height: 360px;
+    }
+    .bank-logo {
+        color: #00a84f;
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -1px;
+    }
+    .bank-logo-mark {
+        display: inline-block;
+        width: 52px;
+        height: 40px;
+        margin-right: 8px;
+        background: #e51b23;
+        clip-path: polygon(0 0, 45% 42%, 45% 0, 55% 0, 55% 42%, 100% 0, 76% 100%, 24% 100%);
+        vertical-align: middle;
+    }
+    .bank-line {
+        font-size: 21px;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+    .bank-line .value {
+        color: #00a84f;
+    }
+    .transfer-content {
+        color: #ff4949;
+        font-size: 20px;
+        font-weight: 700;
+    }
+    .copy-btn {
+        border: 1px solid #ffa000;
+        color: #f59f00;
+        background: #fff;
+        border-radius: 999px;
+        padding: 6px 12px;
+        margin-left: 8px;
+    }
+    .qr-img {
+        width: 260px;
+        max-width: 100%;
+        max-height: 360px;
+        object-fit: contain;
+        border-radius: 6px;
+    }
+    .detail-lines p {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    .confirm-transfer {
+        margin-top: 20px;
+    }
+    .confirm-transfer .form-control {
+        max-width: 190px;
+    }
+    .btn-confirm-transfer {
+        background: #ef4444;
+        border-color: #ef4444;
+        border-radius: 999px;
+        color: #fff;
+        font-weight: 700;
+        padding: 9px 20px;
+    }
+    .btn-confirm-transfer:hover {
+        background: #dc2626;
+        border-color: #dc2626;
+        color: #fff;
+    }
+</style>
+</head>
+<body class="donate-page">
+<%- include('partials/sidebar') %>
+<div class="wrapper d-flex flex-column min-vh-100">
+    <%- include('partials/header') %>
+    <div class="body flex-grow-1">
+        <div class="container-lg px-4" style="max-width:100%">
+            <% if (mode === 'choose') { %>
+            <div class="card donate-card mb-4">
+                <div class="card-header">L&#7920;A CH&#7884;N H&#204;NH TH&#7912;C DONATE</div>
+                <div class="card-body">
+                    <div class="promo-box">
+                        M&#7889;c khuy&#7871;n m&#227;i: 5m<strong>+1%</strong>, 10m<strong>+3%</strong>, 30m<strong>+5%</strong>, 50m<strong>+7%</strong>, 100m<strong>+10%</strong>.
+                    </div>
+                    <div class="donate-choice-title">VUI L&#210;NG KO L&#431;U S&#272;T HO&#7862;C STK, H&#195;Y B&#7844;M N&#218;T COPY HO&#7862;C QU&#201;T M&#195; QR KHI T&#7840;O M&#195; &#272;&#7874; DONATE.</div>
+                    <div class="row g-4 mt-1 mb-3">
+                        <div class="col-md-6">
+                            <form method="post" action="/donate/atm">
+                                <button type="submit" class="donate-method">NG&#194;N H&#192;NG ATM</button>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn donate-method d-flex align-items-center justify-content-center" href="/donate/usdt.aspx">USDT</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } else if (mode === 'bank' && bankInfo) { %>
+            <div class="card donate-card mb-4">
+                <div class="card-header">DONATE QUA NG&#194;N H&#192;NG ATM</div>
+                <div class="card-body bank-panel text-center">
+                    <div class="border p-3 mb-1 text-danger fw-bold fs-5">
+                        L&#432;u &#253; 20/07/2024 n&#7871;u ghi sai n&#7897;i dung ch&#7881; h&#7895; tr&#7907; n&#7871;u chuy&#7875;n t&#7915; VPBANK, c&#225;c bank kh&#225;c vui l&#242;ng b&#225;o chuy&#7875;n nh&#7847;m.
+                    </div>
+                    <div class="text-danger fw-bold fs-5 mb-3">M&#195; N&#7840;P C&#210;N HI&#7878;U L&#7920;C 60 PH&#218;T</div>
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <div class="bank-logo"><span class="bank-logo-mark"></span><%= bankInfo.bank.bankName %></div>
+                        </div>
+                        <div class="col-md-5 text-start">
+                            <div class="bank-line">
+                                <%= bankInfo.bank.bankName.toUpperCase() %>:
+                                <span class="value" id="acc-no"><%= bankInfo.bank.accountNo %></span>
+                                <button type="button" class="copy-btn" onclick="copyText('acc-no')">Copy</button>
+                            </div>
+                            <div class="bank-line">
+                                CH&#7910; T&#192;I KHO&#7842;N:
+                                <span class="value"><%= bankInfo.bank.accountName %></span>
+                            </div>
+                            <div class="bank-line mb-2">N&#7897;i dung chuy&#7875;n kho&#7843;n:</div>
+                            <div class="mb-3">
+                                <span class="transfer-content" id="transfer-content"><%= bankInfo.request.content %></span>
+                                <button type="button" class="copy-btn" onclick="copyText('transfer-content')">Copy</button>
+                            </div>
+                            <div class="text-warning fw-bold fs-5">Vui l&#242;ng ghi ch&#237;nh x&#225;c n&#7897;i dung chuy&#7875;n ti&#7873;n.</div>
+                            <div class="text-danger mt-4 fs-5">QU&#201;T M&#195; QR &#272;&#7874; DONATE S&#7868; T&#7920; NH&#7852;P S&#7860;N N&#7896;I DUNG</div>
+                            <% if (!bankInfo.request.confirmed_by_user) { %>
+                            <form method="post" action="/donate/confirm" class="confirm-transfer d-flex flex-wrap align-items-center gap-2">
+                                <input type="hidden" name="request_id" value="<%= bankInfo.request.id %>">
+                                <input type="number" min="0" name="amount" class="form-control" placeholder="S&#7889; ti&#7873;n &#273;&#227; chuy&#7875;n">
+                                <button type="submit" class="btn btn-confirm-transfer">&#272;&#195; CHUY&#7874;N</button>
+                            </form>
+                            <% } else { %>
+                            <div class="alert alert-success mt-3 mb-0">
+                                &#272;&#227; ghi nh&#7853;n b&#7841;n &#273;&#227; chuy&#7875;n. Vui l&#242;ng ch&#7901; admin duy&#7879;t.
+                            </div>
+                            <% } %>
+                        </div>
+                        <div class="col-md-3">
+                            <img id="qr-img" class="qr-img" src="<%= bankInfo.qrUrl %>" alt="VietQR">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+            <div class="card donate-card mb-4">
+                <div class="card-header">Th&#244;ng tin chi ti&#7871;t</div>
+                <div class="card-body">
+                    <% if (mode === 'choose') { %>
+                    <div class="detail-lines">
+                        <p class="text-danger">- H&#7879; th&#7889;ng n&#7841;p t&#7921; &#273;&#7897;ng, ghi &#273;&#250;ng n&#7897;i dung CK s&#7869; nh&#7853;n xu sau 10-30p.</p>
+                        <p>- T&#7881; l&#7879; chuy&#7875;n &#273;&#7893;i 1&#273; = 1xu v&#224; $1 = 23000xu</p>
+                        <p>- Chuy&#7875;n sai s&#7869; b&#7883; m&#7845;t khuy&#7871;n m&#227;i theo m&#7913;c donate.</p>
+                        <p>- Vui l&#242;ng t&#236;m hi&#7875;u k&#7929; tr&#432;&#7899;c khi donate, h&#7879; th&#7889;ng s&#7869; ko ho&#224;n l&#7841;i v&#7899;i b&#7845;t c&#7913; l&#253; do n&#224;o.</p>
+                        <p class="text-success">- N&#7871;u thao t&#225;c sai ko nh&#7853;n &#273;&#432;&#7907;c xu vui l&#242;ng li&#234;n h&#7879; v&#7899;i t&#7841;o v&#233; h&#7895; tr&#7907; trong 24h c&#249;ng ng&#224;y.</p>
+                        <p class="text-danger">- T&#7915; c&#7845;p &#273;&#7897; &#273;&#7841;i l&#253; c&#7845;p 2 tr&#7903; l&#234;n, donate sai n&#7897;i dung ho&#7863;c STK s&#7869; b&#7883; tr&#7915; ph&#237; t&#7915; 10% &#273;&#7871;n 30%.</p>
+                    </div>
+                    <% } %>
+
+                    <table class="table table-bordered" id="history-table">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>USER</th>
+                                <th>CODE DONATE</th>
+                                <th>DONATE</th>
+                                <th>COIN</th>
+                                <th>STATUS</th>
+                                <th>APPROVE</th>
+                                <th>TIME</th>
+                                <th>DOMAIN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% history.forEach((h, i) => { %>
+                            <tr>
+                                <td><%= i + 1 %></td>
+                                <td><%= currentUser.username %></td>
+                                <td><%= h.content %></td>
+                                <td><%= h.amount_vnd || 0 %></td>
+                                <td><%= h.coin_credited || 0 %></td>
+                                <td>
+                                    <% if (h.status === 'approved') { %>
+                                        <span class="badge bg-success">&#272;&#227; duy&#7879;t</span>
+                                    <% } else if (h.status === 'rejected') { %>
+                                        <span class="badge bg-secondary">T&#7915; ch&#7889;i</span>
+                                    <% } else { %>
+                                        <span class="badge bg-primary">&#272;ang ch&#7901;</span>
+                                    <% } %>
+                                </td>
+                                <td><%= h.approved_by || 0 %></td>
+                                <td><%= h.created_at %></td>
+                                <td>ongtrum.pro</td>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyText(id) {
+        const text = document.getElementById(id).innerText.trim();
+        navigator.clipboard.writeText(text).then(function () {
+            if (window.toastr) toastr.success('Da copy: ' + text);
+        });
+    }
+    $(function () {
+        if ($.fn.DataTable) $('#history-table').DataTable({ order: [] });
+    });
+</script>
+</body>
+</html>

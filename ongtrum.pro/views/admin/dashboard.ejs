@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<%- include('../partials/head', { title: 'Admin - ongtrum.pro' }) %>
+</head>
+<body>
+<%- include('../partials/sidebar') %>
+<div class="wrapper d-flex flex-column min-vh-100">
+    <%- include('../partials/header') %>
+    <div class="body flex-grow-1">
+        <div class="container-lg px-4" style="max-width:100%">
+            <div class="container-fluid">
+                <div class="app-page-title">
+                    <div class="page-title-wrapper">
+                        <div class="page-title-heading">
+                            <div>Admin - Duyệt nạp xu
+                                <div class="page-title-subheading">Danh sách yêu cầu nạp xu đang chờ duyệt.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 main-card card mb-4">
+                    <div class="card-header">Đang chờ duyệt (<%= pending.length %>)</div>
+                    <div class="card-body">
+                        <table class="table table-bordered align-middle">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User</th>
+                                    <th>Nội dung</th>
+                                    <th>Xác nhận</th>
+                                    <th>Số tiền (VND)</th>
+                                    <th>Số xu cộng</th>
+                                    <th>Thời gian</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (pending.length === 0) { %>
+                                <tr><td colspan="8" class="text-center text-muted">Không có yêu cầu nào đang chờ.</td></tr>
+                                <% } %>
+                                <% pending.forEach(function (r) { %>
+                                <tr>
+                                    <td><%= r.id %></td>
+                                    <td><%= r.username %></td>
+                                    <td><%= r.content %></td>
+                                    <td>
+                                        <% if (r.confirmed_by_user) { %>
+                                            <span class="badge bg-info">Đã bấm "Đã chuyển"</span>
+                                        <% } else { %>
+                                            <span class="badge bg-secondary">Chưa xác nhận</span>
+                                        <% } %>
+                                    </td>
+                                    <td style="min-width:120px">
+                                        <input type="number" name="amount_vnd" form="approve-<%= r.id %>" class="form-control form-control-sm" value="<%= r.amount_hint || '' %>" placeholder="VND">
+                                    </td>
+                                    <td style="min-width:100px">
+                                        <input type="number" name="coin_credited" form="approve-<%= r.id %>" class="form-control form-control-sm" placeholder="Xu">
+                                    </td>
+                                    <td><%= r.created_at %></td>
+                                    <td class="text-nowrap">
+                                        <button type="submit" form="approve-<%= r.id %>" class="btn btn-sm btn-success">Duyệt</button>
+                                        <button type="submit" form="reject-<%= r.id %>" class="btn btn-sm btn-outline-danger">Từ chối</button>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                                <% pending.forEach(function (r) { %>
+                                <form id="approve-<%= r.id %>" method="post" action="/admin/donate/<%= r.id %>/approve"></form>
+                                <form id="reject-<%= r.id %>" method="post" action="/admin/donate/<%= r.id %>/reject"></form>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-md-12 main-card card mb-4">
+                    <div class="card-header">Lịch sử gần đây</div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr><th>User</th><th>Nội dung</th><th>Số tiền</th><th>Xu</th><th>Trạng thái</th><th>Thời gian duyệt</th></tr>
+                            </thead>
+                            <tbody>
+                                <% if (recentDecided.length === 0) { %>
+                                <tr><td colspan="6" class="text-center text-muted">Chưa có.</td></tr>
+                                <% } %>
+                                <% recentDecided.forEach(function (r) { %>
+                                <tr>
+                                    <td><%= r.username %></td>
+                                    <td><%= r.content %></td>
+                                    <td><%= r.amount_vnd || 0 %></td>
+                                    <td><%= r.coin_credited || 0 %></td>
+                                    <td>
+                                        <% if (r.status === 'approved') { %>
+                                            <span class="badge bg-success">Đã duyệt</span>
+                                        <% } else { %>
+                                            <span class="badge bg-secondary">Từ chối</span>
+                                        <% } %>
+                                    </td>
+                                    <td><%= r.approved_at %></td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

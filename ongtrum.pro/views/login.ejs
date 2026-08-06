@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<%- include('partials/head', { title: 'Dang nhap - ongtrum.pro' }) %>
+<style>
+    .auth-page .body {
+        background: #f3f4f7;
+    }
+    .auth-card {
+        border-radius: 6px;
+    }
+    .auth-card .card-body {
+        padding: 20px;
+    }
+    .auth-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+    .auth-form .form-label {
+        font-size: 18px;
+        padding-top: 8px;
+    }
+    .auth-actions {
+        text-align: center;
+        margin-top: 26px;
+    }
+    .btn-auth-primary {
+        border: 1px solid #7367f0;
+        color: #7367f0;
+        background: #fff;
+        border-radius: 999px;
+        font-weight: 700;
+        padding: 8px 18px;
+    }
+    .btn-auth-primary:hover {
+        background: #7367f0;
+        color: #fff;
+    }
+    .btn-auth-google {
+        border: 1px solid #ffd68a;
+        color: #e9b652;
+        background: #fff;
+        border-radius: 999px;
+        font-weight: 600;
+        padding: 8px 18px;
+    }
+    .auth-helper {
+        font-size: 17px;
+        font-style: italic;
+    }
+</style>
+</head>
+<body class="auth-page">
+<%- include('partials/auth-sidebar') %>
+<div class="wrapper d-flex flex-column min-vh-100">
+    <%- include('partials/auth-header') %>
+    <div class="body flex-grow-1">
+        <div class="container-lg px-4" style="max-width:100%">
+            <div class="card auth-card mb-4">
+                <div class="card-body">
+                    <div class="auth-title">&#272;&#259;ng nh&#7853;p h&#7879; th&#7889;ng</div>
+                    <% if (error) { %>
+                        <div class="alert alert-danger"><%- error %></div>
+                    <% } %>
+                    <form method="post" action="/login" class="auth-form">
+                        <div class="row mb-3 align-items-center">
+                            <label class="col-md-2 form-label">T&#224;i kho&#7843;n</label>
+                            <div class="col-md-10">
+                                <input class="form-control form-control-lg" type="text" name="username" placeholder="Nh&#7853;p v&#224;o t&#224;i kho&#7843;n" required autofocus>
+                            </div>
+                        </div>
+                        <div class="row mb-4 align-items-center">
+                            <label class="col-md-2 form-label">Password</label>
+                            <div class="col-md-10">
+                                <input class="form-control form-control-lg" type="password" name="password" placeholder="Nh&#7853;p v&#224;o password" required>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="offset-md-2 col-md-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remember" checked>
+                                    <label class="form-check-label" for="remember">&#272;&#259;ng nh&#7853;p v&#244; h&#7841;n</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="auth-actions">
+                            <button class="btn btn-auth-primary" type="submit">&#272;&#258;NG NH&#7852;P</button>
+                            <button class="btn btn-auth-google ms-2" type="button">&#272;&#259;ng nh&#7853;p v&#7899;i google</button>
+                            <div class="auth-helper mt-2">
+                                Ch&#432;a c&#243; t&#224;i kho&#7843;n <a href="/register.aspx">&#273;&#259;ng k&#253; t&#7841;i &#273;&#226;y</a>. <a href="#">Qu&#234;n m&#7853;t kh&#7849;u?</a>.
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('partials/auth-footer') %>
+</div>
+</body>
+</html>

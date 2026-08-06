@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<%- include('partials/head', { title: 'Dang ky - ongtrum.pro' }) %>
+<style>
+    .auth-page .body {
+        background: #f3f4f7;
+    }
+    .auth-card {
+        border-radius: 6px;
+    }
+    .auth-card .card-body {
+        padding: 20px;
+    }
+    .auth-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+    .auth-form .form-label {
+        font-size: 18px;
+        padding-top: 8px;
+    }
+    .auth-actions {
+        text-align: center;
+        margin-top: 18px;
+    }
+    .btn-auth-register {
+        border: 1px solid #8ee0b1;
+        color: #49b875;
+        background: #fff;
+        border-radius: 999px;
+        font-weight: 700;
+        padding: 8px 20px;
+    }
+    .btn-auth-register:hover {
+        background: #49b875;
+        color: #fff;
+    }
+    .auth-helper {
+        font-size: 17px;
+        font-style: italic;
+    }
+</style>
+</head>
+<body class="auth-page">
+<%- include('partials/auth-sidebar') %>
+<div class="wrapper d-flex flex-column min-vh-100">
+    <%- include('partials/auth-header') %>
+    <div class="body flex-grow-1">
+        <div class="container-lg px-4" style="max-width:100%">
+            <div class="card auth-card mb-4">
+                <div class="card-body">
+                    <div class="auth-title">&#272;&#259;ng k&#253; t&#224;i kho&#7843;n</div>
+                    <div class="alert alert-success">H&#227;y nh&#7853;p &#273;&#250;ng email &#273;&#7875; nh&#7853;n m&#227; k&#237;ch ho&#7841;t!</div>
+                    <% if (error) { %>
+                        <div class="alert alert-danger"><%- error %></div>
+                    <% } %>
+                    <form method="post" action="/register" class="auth-form">
+                        <div class="row mb-3 align-items-center">
+                            <label class="col-md-2 form-label">T&#234;n b&#7841;n</label>
+                            <div class="col-md-10">
+                                <input class="form-control form-control-lg" type="text" name="display_name" placeholder="Nh&#7853;p v&#224;o t&#234;n b&#7841;n">
+                            </div>
+                        </div>
+                        <div class="row mb-3 align-items-center">
+                            <label class="col-md-2 form-label">T&#224;i kho&#7843;n</label>
+                            <div class="col-md-10">
+                                <input class="form-control form-control-lg" type="text" name="username" placeholder="Nh&#7853;p v&#224;o t&#224;i kho&#7843;n" required autofocus>
+                            </div>
+                        </div>
+                        <div class="row mb-3 align-items-center">
+                            <label class="col-md-2 form-label">Email</label>
+                            <div class="col-md-10">
+                                <input class="form-control form-control-lg" type="email" name="email" placeholder="Nh&#7853;p v&#224;o email">
+                            </div>
+                        </div>
+                        <div class="row mb-3 align-items-center">
+                            <label class="col-md-2 form-label">Password</label>
+                            <div class="col-md-10">
+                                <input class="form-control form-control-lg" type="password" name="password" placeholder="Nh&#7853;p v&#224;o password" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3 align-items-center">
+                            <label class="col-md-2 form-label">Re password</label>
+                            <div class="col-md-10">
+                                <input class="form-control form-control-lg" type="password" name="password2" placeholder="Nh&#7853;p l&#7841;i password" required>
+                            </div>
+                        </div>
+                        <div class="auth-actions">
+                            <button class="btn btn-auth-register" type="submit">&#272;&#258;NG K&#221;</button>
+                            <div class="auth-helper mt-2">
+                                &#272;&#227; c&#243; t&#224;i kho&#7843;n <a href="/login.aspx">&#273;&#259;ng nh&#7853;p t&#7841;i &#273;&#226;y</a>.
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('partials/auth-footer') %>
+</div>
+</body>
+</html>

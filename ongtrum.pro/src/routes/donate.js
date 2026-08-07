@@ -37,7 +37,7 @@ function bankViewModel(request) {
   if (!request) return null;
   return {
     request,
-    qrUrl: buildVietQrUrl({ amount: request.amount_hint, content: request.content }),
+    qrUrl: buildVietQrUrl({ content: request.content }),
     bank: {
       accountNo: DEFAULT_ACCOUNT_NO,
       transferPrefix: DEFAULT_TRANSFER_PREFIX,

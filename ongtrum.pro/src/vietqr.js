@@ -6,17 +6,15 @@ const DEFAULT_BANK_NAME = process.env.BANK_NAME || 'VPBank';
 const STATIC_QR_PATH = process.env.BANK_STATIC_QR_PATH || '';
 
 function buildVietQrUrl({
-  amount,
   content,
   accountNo = DEFAULT_ACCOUNT_NO,
   accountName = DEFAULT_ACCOUNT_NAME,
   bankCode = DEFAULT_BANK_CODE,
-  template = 'compact2',
+  template = 'qr_only',
 }) {
   if (STATIC_QR_PATH) return STATIC_QR_PATH;
 
   const params = new URLSearchParams({ addInfo: content, accountName });
-  if (amount) params.set('amount', String(amount));
   return `https://img.vietqr.io/image/${bankCode}-${accountNo}-${template}.png?${params.toString()}`;
 }
 
